@@ -1,16 +1,24 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="UTF-8">
+
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0, viewport-fit=cover"
   >
 
   <meta name="theme-color" content="#eee2cf">
+
   <title>NEIZH</title>
 
   <style>
+
+    /* =========================
+       BASE
+       ========================= */
+
     * {
       box-sizing: border-box;
     }
@@ -18,22 +26,35 @@
     html,
     body {
       margin: 0;
+      padding: 0;
+
       width: 100%;
       height: 100%;
+
       overflow: hidden;
+
       background: #eee2cf;
+
       font-family: Georgia, serif;
     }
 
     body {
+      min-height: 100vh;
       min-height: 100dvh;
     }
 
-    /* ---------- ÉCRANS ---------- */
+
+    /* =========================
+       ÉCRANS
+       ========================= */
 
     .screen {
       position: fixed;
       inset: 0;
+
+      width: 100%;
+      height: 100%;
+
       overflow: hidden;
 
       display: flex;
@@ -41,13 +62,24 @@
       justify-content: center;
 
       transition:
-        opacity .9s ease,
+        opacity 0.9s ease,
         transform 1.1s cubic-bezier(.22,.61,.36,1);
     }
 
-    /* ---------- IMAGE PRINCIPALE ---------- */
 
-    .house {
+    /* =========================
+       ACCUEIL
+       ========================= */
+
+    #accueil {
+      z-index: 2;
+
+      cursor: pointer;
+
+      background: #eee2cf;
+    }
+
+    #accueil .house {
       position: absolute;
       inset: 0;
 
@@ -55,49 +87,34 @@
       height: 100%;
 
       object-fit: cover;
-      object-position: center;
-
-      z-index: 2;
+      object-position: center center;
 
       user-select: none;
       -webkit-user-drag: none;
     }
 
-    /* ---------- ACCUEIL ---------- */
 
-    #accueil {
-      z-index: 2;
-      cursor: pointer;
-      background: #eee2cf;
-    }
-
-    /* ---------- INTÉRIEUR ---------- */
+    /* =========================
+       INTÉRIEUR
+       ========================= */
 
     #interieur {
       z-index: 1;
 
       opacity: 0;
+
       transform: scale(1.025);
 
       pointer-events: none;
+
       background: #eee2cf;
     }
 
-    body.inside #accueil {
-      opacity: 0;
-      transform: scale(1.035);
-      pointer-events: none;
-    }
 
-    body.inside #interieur {
-      opacity: 1;
-      transform: scale(1);
-      pointer-events: auto;
-    }
+    /* Fond flouté intérieur
+       TEMPORAIRE */
 
-    /* ---------- INTÉRIEUR : FOND FLOU TEMPORAIRE ---------- */
-
-    .background {
+    #interieur .background {
       position: absolute;
 
       inset: -40px;
@@ -117,11 +134,13 @@
       opacity: .65;
     }
 
-    .veil {
+
+    #interieur .veil {
       position: absolute;
       inset: 0;
 
-      background: rgba(244, 235, 220, .24);
+      background:
+        rgba(244, 235, 220, .24);
 
       backdrop-filter: blur(3px);
       -webkit-backdrop-filter: blur(3px);
@@ -129,25 +148,53 @@
       z-index: 1;
     }
 
-    /* ---------- IMAGE INTÉRIEURE ---------- */
 
     #interieur .house {
-      object-fit: contain;
+      position: relative;
+
+      z-index: 2;
+
       width: 97%;
       height: 97%;
-      left: 1.5%;
-      top: 1.5%;
-      inset: auto;
+
+      object-fit: contain;
+
+      user-select: none;
+      -webkit-user-drag: none;
     }
 
-    /* ---------- INTERFACE ---------- */
 
-    .ui {
-      position: absolute;
-      z-index: 10;
+    /* =========================
+       TRANSITION
+       ========================= */
+
+    body.inside #accueil {
+      opacity: 0;
+
+      transform: scale(1.035);
+
+      pointer-events: none;
     }
+
+
+    body.inside #interieur {
+      opacity: 1;
+
+      transform: scale(1);
+
+      pointer-events: auto;
+    }
+
+
+    /* =========================
+       BOUTON RETOUR
+       ========================= */
 
     .retour {
+      position: absolute;
+
+      z-index: 10;
+
       top:
         max(
           18px,
@@ -160,67 +207,81 @@
           calc(env(safe-area-inset-left) + 8px)
         );
 
+      padding: 11px 17px;
+
       border: 0;
 
       border-radius: 999px;
 
-      padding: 11px 17px;
-
-      background: rgba(255,255,255,.86);
+      background:
+        rgba(255, 255, 255, .86);
 
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
 
       color: #514737;
 
-      font-family: inherit;
+      font-family: Georgia, serif;
       font-size: 14px;
 
       cursor: pointer;
 
       box-shadow:
-        0 5px 18px rgba(0,0,0,.13);
+        0 5px 18px rgba(0, 0, 0, .13);
     }
 
-    /* ---------- MOBILE ---------- */
+
+    /* =========================
+       MOBILE
+       ========================= */
 
     @media (max-width: 768px) {
 
       /*
-      Pour l'instant, la nouvelle créa desktop reste utilisée.
-      On fabriquera ensuite une vraie version mobile dédiée.
+        Temporaire :
+        on utilise encore l'image desktop.
+
+        La véritable illustration mobile
+        viendra ensuite.
       */
 
       #accueil .house {
         object-fit: cover;
-        object-position: center;
+        object-position: center center;
       }
+
 
       #interieur .house {
         width: 96%;
         height: 96%;
-        left: 2%;
-        top: 2%;
       }
+
     }
 
-    /* ---------- DESKTOP ---------- */
+
+    /* =========================
+       DESKTOP
+       ========================= */
 
     @media (min-width: 769px) {
 
       #accueil .house {
         object-fit: cover;
-        object-position: center;
+        object-position: center center;
       }
+
     }
+
   </style>
 </head>
 
+
 <body>
 
-  <!-- =============================
-       MAISON EXTÉRIEURE
-       ============================= -->
+
+  <!-- =========================
+       ACCUEIL NEIZH
+       ========================= -->
 
   <section
     id="accueil"
@@ -229,15 +290,17 @@
 
     <img
       class="house"
-      src="maison-accueil-desktop.png"
+      src="maison-accueil-desktop.png.png"
       alt="NEIZH"
     >
 
   </section>
 
-  <!-- =============================
+
+
+  <!-- =========================
        MAISON EN COUPE
-       ============================= -->
+       ========================= -->
 
   <section
     id="interieur"
@@ -252,52 +315,76 @@
 
     <div class="veil"></div>
 
+
     <img
       class="house"
       src="maison-interieur.webp"
       alt="Intérieur de NEIZH"
     >
 
+
     <button
-      class="ui retour"
+      class="retour"
       id="retour"
+      type="button"
     >
       ← Dehors
     </button>
 
   </section>
 
+
+
+  <!-- =========================
+       INTERACTIONS
+       ========================= -->
+
   <script>
+
     const accueil =
       document.getElementById("accueil");
 
     const retour =
       document.getElementById("retour");
 
-    /* Entrer dans la maison */
+
+    /*
+      Clic sur l'accueil :
+      ouverture de la maison
+    */
 
     accueil.addEventListener(
       "click",
-      () => {
+      function () {
+
         document.body
           .classList
           .add("inside");
+
       }
     );
 
-    /* Revenir dehors */
+
+    /*
+      Retour à l'extérieur
+    */
 
     retour.addEventListener(
       "click",
-      (event) => {
+      function (event) {
+
         event.stopPropagation();
 
         document.body
           .classList
           .remove("inside");
+
       }
     );
+
   </script>
 
+
 </body>
+
 </html>
