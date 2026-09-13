@@ -283,13 +283,11 @@
 
 
     .hotspot:hover .room-name {
-
       opacity: 1;
 
       transform:
         translateX(-50%)
         translateY(0);
-
     }
 
 
@@ -300,7 +298,6 @@
        ================================================== */
 
     #bibliotheque-hotspot {
-
       left: 45%;
 
       top: 28%;
@@ -308,7 +305,6 @@
       width: 13%;
 
       height: 25%;
-
     }
 
 
@@ -318,29 +314,23 @@
        ================================================== */
 
     #bibliotheque {
-
       z-index: 5;
 
       background: #eee2cf;
-
     }
 
 
     body.library-open #bibliotheque {
-
       opacity: 1;
 
       pointer-events: auto;
-
     }
 
 
     body.library-open #interieur {
-
       opacity: 0;
 
       pointer-events: none;
-
     }
 
 
@@ -350,7 +340,6 @@
        ================================================== */
 
     .library-image {
-
       position: absolute;
 
       inset: 0;
@@ -366,7 +355,53 @@
       user-select: none;
 
       -webkit-user-drag: none;
+    }
 
+
+
+    /* ==================================================
+       NOX
+       ================================================== */
+
+    #nox-stage {
+      position: absolute;
+
+      inset: 0;
+
+      z-index: 25;
+
+      overflow: hidden;
+
+      pointer-events: none;
+    }
+
+
+    #nox {
+      position: absolute;
+
+      width: clamp(85px, 7.5vw, 135px);
+
+      height: auto;
+
+      left: -12%;
+
+      bottom: 18%;
+
+      opacity: 0;
+
+      pointer-events: none;
+
+      user-select: none;
+
+      -webkit-user-drag: none;
+
+      transform-origin: center bottom;
+
+      filter:
+        drop-shadow(
+          0 7px 7px
+          rgba(60, 40, 25, .16)
+        );
     }
 
 
@@ -376,7 +411,6 @@
        ================================================== */
 
     .retour-maison {
-
       position: absolute;
 
       z-index: 50;
@@ -418,19 +452,16 @@
       transition:
         transform .2s ease,
         background .2s ease;
-
     }
 
 
     .retour-maison:hover {
-
       background:
         white;
 
       transform:
         translateX(-50%)
         translateY(-2px);
-
     }
 
 
@@ -443,23 +474,29 @@
 
       .sortir,
       .retour-maison {
-
         font-size: 14px;
 
         padding:
           11px 20px;
-
       }
 
 
       .room-name {
-
         font-size:
           14px;
 
         padding:
           8px 13px;
+      }
 
+
+      /*
+        Pour le moment, animation Nox desktop.
+        On fera ensuite une version mobile adaptée.
+      */
+
+      #nox-stage {
+        display: none;
       }
 
     }
@@ -563,6 +600,24 @@
     >
 
 
+
+    <!-- ================================================
+         NOX
+         ================================================ -->
+
+    <div id="nox-stage">
+
+      <img
+        id="nox"
+        src="nox-marche.png"
+        alt=""
+        aria-hidden="true"
+      >
+
+    </div>
+
+
+
     <button
       id="retour-maison"
       class="retour-maison"
@@ -613,6 +668,390 @@
       );
 
 
+    const nox =
+      document.getElementById(
+        "nox"
+      );
+
+
+
+    /* ==================================================
+       PRÉCHARGEMENT DES IMAGES DE NOX
+       ================================================== */
+
+    const noxImages = [
+      "nox-marche.png",
+      "nox-attente.png",
+      "nox-saut.png",
+      "nox-assise.png",
+      "nox-dort.png"
+    ];
+
+
+    noxImages.forEach(
+      function (src) {
+
+        const image =
+          new Image();
+
+        image.src = src;
+
+      }
+    );
+
+
+
+    /* ==================================================
+       PETITE FONCTION D'ATTENTE
+       ================================================== */
+
+    function attendre(ms) {
+
+      return new Promise(
+        function (resolve) {
+
+          setTimeout(
+            resolve,
+            ms
+          );
+
+        }
+      );
+
+    }
+
+
+
+    /* ==================================================
+       GESTION DE L'ANIMATION NOX
+       ================================================== */
+
+    let animationNoxId = 0;
+
+
+    function stopperNox() {
+
+      animationNoxId++;
+
+
+      nox
+        .getAnimations()
+        .forEach(
+          function (animation) {
+
+            animation.cancel();
+
+          }
+        );
+
+
+      nox.style.opacity = "0";
+
+      nox.style.left = "-12%";
+
+      nox.style.bottom = "18%";
+
+      nox.style.transform = "none";
+
+      nox.src = "nox-marche.png";
+
+    }
+
+
+
+    async function jouerAnimationNox() {
+
+      /*
+        Chaque lancement reçoit son propre numéro.
+        Si on quitte la bibliothèque, le numéro
+        change et l'animation s'arrête.
+      */
+
+      const monAnimationId =
+        ++animationNoxId;
+
+
+
+      function animationToujoursActive() {
+
+        return (
+          monAnimationId ===
+          animationNoxId
+        );
+
+      }
+
+
+
+      /* ----------------------------------------------
+         1. NOX ENTRE À GAUCHE
+         ---------------------------------------------- */
+
+      nox.src =
+        "nox-marche.png";
+
+      nox.style.opacity =
+        "1";
+
+      nox.style.left =
+        "-10%";
+
+      nox.style.bottom =
+        "18%";
+
+      nox.style.transform =
+        "none";
+
+
+      await attendre(300);
+
+
+      if (!animationToujoursActive()) {
+        return;
+      }
+
+
+
+      /* ----------------------------------------------
+         2. NOX MARCHE JUSQU'AU FAUTEUIL
+         ---------------------------------------------- */
+
+      const marche =
+        nox.animate(
+
+          [
+
+            {
+              left: "-10%",
+              bottom: "18%",
+              transform:
+                "translateY(0)"
+            },
+
+            {
+              left: "-2%",
+              bottom: "18%",
+              transform:
+                "translateY(-4px)"
+            },
+
+            {
+              left: "7%",
+              bottom: "18%",
+              transform:
+                "translateY(0)"
+            },
+
+            {
+              left: "15%",
+              bottom: "18%",
+              transform:
+                "translateY(-4px)"
+            },
+
+            {
+              left: "23%",
+              bottom: "18%",
+              transform:
+                "translateY(0)"
+            },
+
+            {
+              left: "30%",
+              bottom: "18%",
+              transform:
+                "translateY(-3px)"
+            }
+
+          ],
+
+          {
+            duration: 4200,
+
+            easing: "linear",
+
+            fill: "forwards"
+          }
+
+        );
+
+
+      await marche.finished;
+
+
+      if (!animationToujoursActive()) {
+        return;
+      }
+
+
+      nox.style.left =
+        "30%";
+
+      nox.style.bottom =
+        "18%";
+
+      nox.style.transform =
+        "none";
+
+
+
+      /* ----------------------------------------------
+         3. NOX S'ARRÊTE ET REGARDE
+         ---------------------------------------------- */
+
+      nox.src =
+        "nox-attente.png";
+
+
+      await attendre(1300);
+
+
+      if (!animationToujoursActive()) {
+        return;
+      }
+
+
+
+      /* ----------------------------------------------
+         4. NOX SAUTE SUR LE FAUTEUIL
+         ---------------------------------------------- */
+
+      nox.src =
+        "nox-saut.png";
+
+
+      await attendre(120);
+
+
+      if (!animationToujoursActive()) {
+        return;
+      }
+
+
+      const saut =
+        nox.animate(
+
+          [
+
+            {
+              left: "30%",
+              bottom: "18%",
+
+              transform:
+                "rotate(-4deg) scale(.96)"
+            },
+
+            {
+              left: "34%",
+              bottom: "35%",
+
+              transform:
+                "rotate(-1deg) scale(1)"
+            },
+
+            {
+              left: "38.5%",
+              bottom: "29.5%",
+
+              transform:
+                "rotate(2deg) scale(.96)"
+            }
+
+          ],
+
+          {
+            duration: 1050,
+
+            easing:
+              "cubic-bezier(.35,.05,.30,1)",
+
+            fill: "forwards"
+          }
+
+        );
+
+
+      await saut.finished;
+
+
+      if (!animationToujoursActive()) {
+        return;
+      }
+
+
+
+      /* ----------------------------------------------
+         5. NOX ASSISE SUR LE FAUTEUIL
+         ---------------------------------------------- */
+
+      nox.src =
+        "nox-assise.png";
+
+      nox.style.left =
+        "38.5%";
+
+      nox.style.bottom =
+        "29.5%";
+
+      nox.style.transform =
+        "none";
+
+
+      await attendre(1800);
+
+
+      if (!animationToujoursActive()) {
+        return;
+      }
+
+
+
+      /* ----------------------------------------------
+         6. NOX S'ALLONGE ET DORT
+         ---------------------------------------------- */
+
+      nox.style.opacity =
+        ".25";
+
+
+      await attendre(150);
+
+
+      if (!animationToujoursActive()) {
+        return;
+      }
+
+
+      nox.src =
+        "nox-dort.png";
+
+      nox.style.left =
+        "37.8%";
+
+      nox.style.bottom =
+        "29%";
+
+
+      await attendre(80);
+
+
+      if (!animationToujoursActive()) {
+        return;
+      }
+
+
+      nox.style.opacity =
+        "1";
+
+
+      /*
+        Fin :
+        Nox reste couchée sur le fauteuil.
+      */
+
+    }
+
+
 
     /* ==================================================
        ENTRER DANS NEIZH
@@ -640,6 +1079,9 @@
       function (event) {
 
         event.stopPropagation();
+
+
+        stopperNox();
 
 
         document.body
@@ -671,6 +1113,24 @@
           .classList
           .add("library-open");
 
+
+        stopperNox();
+
+
+        /*
+          Petit délai pour laisser la bibliothèque
+          apparaître avant que Nox entre.
+        */
+
+        setTimeout(
+          function () {
+
+            jouerAnimationNox();
+
+          },
+          650
+        );
+
       }
     );
 
@@ -683,6 +1143,9 @@
     retourMaison.addEventListener(
       "click",
       function () {
+
+        stopperNox();
+
 
         document.body
           .classList
