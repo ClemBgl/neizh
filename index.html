@@ -110,13 +110,11 @@
 
     body.inside #accueil {
       opacity: 0;
-
       pointer-events: none;
     }
 
     body.inside #interieur {
       opacity: 1;
-
       pointer-events: auto;
     }
 
@@ -128,7 +126,7 @@
     .retour {
       position: absolute;
 
-      z-index: 30;
+      z-index: 50;
 
       left: 50%;
       bottom: 4.5%;
@@ -151,105 +149,247 @@
       cursor: pointer;
 
       box-shadow:
-        0 4px 14px rgba(0,0,0,.10);
+        0 4px 14px rgba(0, 0, 0, .12);
+
+      transition:
+        transform .2s ease,
+        background .2s ease;
     }
 
     .retour:hover {
-      background: rgba(255,255,255,.98);
+      background: white;
+
+      transform:
+        translateX(-50%)
+        translateY(-2px);
     }
 
 
     /* =========================
-   HOTSPOTS
-   ========================= */
+       HOTSPOTS
+       ========================= */
 
-.hotspot {
-  position: absolute;
-  z-index: 20;
+    .hotspot {
+      position: absolute;
 
-  border: 2px solid rgba(255, 255, 255, .35);
-  padding: 0;
+      z-index: 30;
 
-  background: rgba(255, 235, 180, .12);
+      border:
+        2px solid
+        rgba(255, 255, 255, .55);
 
-  cursor: pointer;
+      padding: 0;
 
-  border-radius: 18px;
+      background:
+        rgba(255, 225, 150, .16);
 
-  transition:
-    background .25s ease,
-    box-shadow .25s ease,
-    border-color .25s ease;
-}
+      cursor: pointer;
 
-.hotspot:hover {
-  background: rgba(255, 225, 150, .28);
+      border-radius: 18px;
 
-  border-color: rgba(255, 255, 255, .75);
+      box-shadow:
+        0 0 18px
+        rgba(255, 210, 120, .18);
 
-  box-shadow:
-    0 0 0 3px rgba(255,255,255,.16),
-    0 0 34px rgba(255,195,90,.55);
-}
-
-
-/* =========================
-   NOM DE LA PIÈCE
-   ========================= */
-
-.hotspot::after {
-  content: attr(data-room);
-
-  position: absolute;
-
-  left: 50%;
-  bottom: 12px;
-
-  transform: translateX(-50%) translateY(6px);
-
-  padding: 8px 14px;
-
-  border-radius: 999px;
-
-  background: rgba(70, 57, 43, .88);
-
-  color: white;
-
-  font-family: Georgia, serif;
-  font-size: 15px;
-
-  white-space: nowrap;
-
-  opacity: 0;
-
-  pointer-events: none;
-
-  transition:
-    opacity .2s ease,
-    transform .2s ease;
-
-  box-shadow:
-    0 4px 12px rgba(0,0,0,.18);
-}
-
-.hotspot:hover::after {
-  opacity: 1;
-
-  transform: translateX(-50%) translateY(0);
-}
+      transition:
+        background .25s ease,
+        box-shadow .25s ease,
+        border-color .25s ease,
+        transform .25s ease;
+    }
 
 
-/* =========================
-   BIBLIOTHÈQUE
-   ========================= */
+    /* Survol de la pièce */
 
-#bibliotheque-hotspot {
-  left: 36%;
-  top: 24%;
+    .hotspot:hover {
+      background:
+        rgba(255, 220, 130, .34);
 
-  width: 24%;
-  height: 34%;
-}
+      border-color:
+        rgba(255, 255, 255, .95);
+
+      box-shadow:
+        0 0 0 3px
+        rgba(255, 255, 255, .16),
+        0 0 38px
+        rgba(255, 190, 75, .60);
+
+      transform: scale(1.015);
+    }
+
+
+    /* =========================
+       NOM DE LA PIÈCE
+       ========================= */
+
+    .room-name {
+      position: absolute;
+
+      left: 50%;
+      bottom: 14px;
+
+      transform:
+        translateX(-50%)
+        translateY(8px);
+
+      padding: 9px 16px;
+
+      border-radius: 999px;
+
+      background:
+        rgba(67, 55, 43, .90);
+
+      color: white;
+
+      font-family: Georgia, serif;
+      font-size: 16px;
+
+      white-space: nowrap;
+
+      opacity: 0;
+
+      pointer-events: none;
+
+      box-shadow:
+        0 4px 14px
+        rgba(0, 0, 0, .20);
+
+      transition:
+        opacity .2s ease,
+        transform .2s ease;
+    }
+
+
+    .hotspot:hover .room-name {
+      opacity: 1;
+
+      transform:
+        translateX(-50%)
+        translateY(0);
+    }
+
+
+    /* =========================
+       BIBLIOTHÈQUE
+       ========================= */
+
+    #bibliotheque-hotspot {
+      left: 36%;
+      top: 24%;
+
+      width: 24%;
+      height: 34%;
+    }
+
+
+    /* =========================
+       MOBILE
+       ========================= */
+
+    @media (max-width: 768px) {
+
+      #accueil .house,
+      #interieur .house {
+        object-fit: cover;
+        object-position: center center;
+      }
+
+      .retour {
+        font-size: 14px;
+
+        padding: 11px 20px;
+      }
+
+      .hotspot {
+        border-width: 2px;
+      }
+
+      .room-name {
+        font-size: 14px;
+
+        padding: 8px 13px;
+
+        opacity: 1;
+
+        transform:
+          translateX(-50%)
+          translateY(0);
+      }
+
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+
+  <!-- =========================
+       MAISON EXTÉRIEURE
+       ========================= -->
+
+  <section
+    id="accueil"
+    class="screen"
+  >
+
+    <img
+      class="house"
+      src="maison-accueil-desktop.3.png"
+      alt="NEIZH"
+    >
+
+  </section>
+
+
+  <!-- =========================
+       MAISON INTÉRIEURE
+       ========================= -->
+
+  <section
+    id="interieur"
+    class="screen"
+  >
+
+    <img
+      class="house"
+      src="maison-interieur.3.png.png"
+      alt="Intérieur de NEIZH"
+    >
+
+
+    <!-- =========================
+         BIBLIOTHÈQUE
+         ========================= -->
+
+    <button
+      id="bibliotheque-hotspot"
+      class="hotspot"
+      type="button"
+      aria-label="Ouvrir la bibliothèque"
+    >
+
+      <span class="room-name">
+        Bibliothèque
+      </span>
+
+    </button>
+
+
+    <!-- =========================
+         SORTIR
+         ========================= -->
+
+    <button
+      class="retour"
+      id="retour"
+      type="button"
+    >
+      Sortir
+    </button>
+
+  </section>
 
 
   <!-- =========================
@@ -265,7 +405,9 @@
       document.getElementById("retour");
 
     const bibliotheque =
-      document.getElementById("bibliotheque-hotspot");
+      document.getElementById(
+        "bibliotheque-hotspot"
+      );
 
 
     /* =========================
@@ -303,7 +445,7 @@
 
 
     /* =========================
-       BIBLIOTHÈQUE
+       OUVRIR LA BIBLIOTHÈQUE
        ========================= */
 
     bibliotheque.addEventListener(
@@ -312,7 +454,9 @@
 
         event.stopPropagation();
 
-        alert("Bienvenue dans la bibliothèque 📚");
+        alert(
+          "Bienvenue dans la bibliothèque 📚"
+        );
 
       }
     );
