@@ -13,6 +13,11 @@
   <title>NEIZH</title>
 
   <style>
+
+    /* =========================
+       BASE
+       ========================= */
+
     * {
       box-sizing: border-box;
     }
@@ -44,6 +49,7 @@
 
     .screen {
       position: fixed;
+
       inset: 0;
 
       width: 100%;
@@ -62,6 +68,7 @@
     #accueil .house,
     #interieur .house {
       position: absolute;
+
       inset: 0;
 
       width: 100%;
@@ -104,17 +111,18 @@
 
 
     /* =========================
-       PASSAGE EXTÉRIEUR
-       -> INTÉRIEUR
+       EXTÉRIEUR → INTÉRIEUR
        ========================= */
 
     body.inside #accueil {
       opacity: 0;
+
       pointer-events: none;
     }
 
     body.inside #interieur {
       opacity: 1;
+
       pointer-events: auto;
     }
 
@@ -136,7 +144,6 @@
       padding: 14px 34px;
 
       border: 0;
-
       border-radius: 999px;
 
       background: rgba(250, 247, 240, .96);
@@ -156,6 +163,7 @@
         background .2s ease;
     }
 
+
     .retour:hover {
       background: white;
 
@@ -166,7 +174,7 @@
 
 
     /* =========================
-       HOTSPOTS
+       ZONES CLIQUABLES
        ========================= */
 
     .hotspot {
@@ -174,47 +182,37 @@
 
       z-index: 30;
 
-      border:
-        2px solid
-        rgba(255, 255, 255, .55);
-
+      border: 0;
       padding: 0;
 
-      background:
-        rgba(255, 225, 150, .16);
+      background: transparent;
 
       cursor: pointer;
 
       border-radius: 18px;
 
-      box-shadow:
-        0 0 18px
-        rgba(255, 210, 120, .18);
+      box-shadow: none;
 
       transition:
         background .25s ease,
-        box-shadow .25s ease,
-        border-color .25s ease,
-        transform .25s ease;
+        box-shadow .25s ease;
     }
 
 
-    /* Survol de la pièce */
+    /* =========================
+       SURVOL D'UNE PIÈCE
+       ========================= */
 
     .hotspot:hover {
       background:
-        rgba(255, 220, 130, .34);
-
-      border-color:
-        rgba(255, 255, 255, .95);
+        rgba(255, 220, 130, .25);
 
       box-shadow:
-        0 0 0 3px
-        rgba(255, 255, 255, .16),
-        0 0 38px
-        rgba(255, 190, 75, .60);
+        inset 0 0 0 2px
+        rgba(255, 255, 255, .72),
 
-      transform: scale(1.015);
+        0 0 30px
+        rgba(255, 190, 75, .45);
     }
 
 
@@ -237,7 +235,7 @@
       border-radius: 999px;
 
       background:
-        rgba(67, 55, 43, .90);
+        rgba(67, 55, 43, .92);
 
       color: white;
 
@@ -274,11 +272,17 @@
        ========================= */
 
     #bibliotheque-hotspot {
-      left: 36%;
-      top: 24%;
 
-      width: 24%;
-      height: 34%;
+      /*
+        Zone volontairement plus petite
+        que dans la version précédente.
+      */
+
+      left: 40%;
+      top: 22%;
+
+      width: 18%;
+      height: 30%;
     }
 
 
@@ -294,26 +298,24 @@
         object-position: center center;
       }
 
+
       .retour {
         font-size: 14px;
 
         padding: 11px 20px;
       }
 
-      .hotspot {
-        border-width: 2px;
-      }
+
+      /*
+        Sur mobile il n'y a pas vraiment
+        de "survol". On travaillera plus
+        tard une interaction tactile dédiée.
+      */
 
       .room-name {
         font-size: 14px;
 
         padding: 8px 13px;
-
-        opacity: 1;
-
-        transform:
-          translateX(-50%)
-          translateY(0);
       }
 
     }
@@ -445,7 +447,7 @@
 
 
     /* =========================
-       OUVRIR LA BIBLIOTHÈQUE
+       BIBLIOTHÈQUE
        ========================= */
 
     bibliotheque.addEventListener(
