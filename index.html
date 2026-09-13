@@ -37,6 +37,7 @@
       min-height: 100dvh;
     }
 
+
     /* =========================
        ÉCRANS
        ========================= */
@@ -53,8 +54,9 @@
       transition: opacity .8s ease;
     }
 
+
     /* =========================
-       IMAGES EXTÉRIEUR + INTÉRIEUR
+       IMAGES
        ========================= */
 
     #accueil .house,
@@ -72,6 +74,7 @@
       -webkit-user-drag: none;
     }
 
+
     /* =========================
        ACCUEIL
        ========================= */
@@ -86,6 +89,7 @@
       pointer-events: auto;
     }
 
+
     /* =========================
        INTÉRIEUR
        ========================= */
@@ -98,8 +102,10 @@
       pointer-events: none;
     }
 
+
     /* =========================
-       PASSAGE EXTÉRIEUR -> INTÉRIEUR
+       PASSAGE EXTÉRIEUR
+       -> INTÉRIEUR
        ========================= */
 
     body.inside #accueil {
@@ -114,36 +120,89 @@
       pointer-events: auto;
     }
 
+
     /* =========================
-       BOUTON RETOUR
+       BOUTON SORTIR
        ========================= */
 
     .retour {
       position: absolute;
 
-      z-index: 10;
+      z-index: 30;
 
-/* Même zone que "Entrer dans NEIZH" */
-  left: 50%;
-  bottom: 4.5%;
-  transform: translateX(-50%);
+      left: 50%;
+      bottom: 4.5%;
 
-  padding: 14px 34px;
+      transform: translateX(-50%);
 
-  border: 0;
-  border-radius: 999px;
+      padding: 14px 34px;
 
-  background: rgba(250, 247, 240, .96);
+      border: 0;
 
-  color: #514737;
+      border-radius: 999px;
 
-  font-family: Georgia, serif;
-  font-size: 17px;
+      background: rgba(250, 247, 240, .96);
 
-  cursor: pointer;
+      color: #514737;
 
-  box-shadow: 0 4px 14px rgba(0,0,0,.10);
-}
+      font-family: Georgia, serif;
+      font-size: 17px;
+
+      cursor: pointer;
+
+      box-shadow:
+        0 4px 14px rgba(0,0,0,.10);
+    }
+
+    .retour:hover {
+      background: rgba(255,255,255,.98);
+    }
+
+
+    /* =========================
+       HOTSPOTS
+       ========================= */
+
+    .hotspot {
+      position: absolute;
+
+      z-index: 20;
+
+      border: 0;
+      padding: 0;
+
+      background: transparent;
+
+      cursor: pointer;
+
+      border-radius: 16px;
+
+      transition:
+        background .25s ease,
+        box-shadow .25s ease;
+    }
+
+    .hotspot:hover {
+      background: rgba(255, 240, 190, .12);
+
+      box-shadow:
+        0 0 0 2px rgba(255,255,255,.20),
+        0 0 30px rgba(255,210,120,.40);
+    }
+
+
+    /* =========================
+       HOTSPOT BIBLIOTHÈQUE
+       ========================= */
+
+    #bibliotheque-hotspot {
+      left: 39%;
+      top: 25%;
+
+      width: 19%;
+      height: 31%;
+    }
+
 
     /* =========================
        MOBILE
@@ -158,14 +217,24 @@
       }
 
       .retour {
-        font-size: 13px;
-        padding: 10px 15px;
+        font-size: 14px;
+
+        padding: 11px 20px;
+      }
+
+      .hotspot:hover {
+        background: transparent;
+
+        box-shadow: none;
       }
     }
+
   </style>
 </head>
 
+
 <body>
+
 
   <!-- =========================
        MAISON EXTÉRIEURE
@@ -184,6 +253,7 @@
 
   </section>
 
+
   <!-- =========================
        MAISON INTÉRIEURE
        ========================= -->
@@ -199,47 +269,97 @@
       alt="Intérieur de NEIZH"
     >
 
+
+    <!-- Zone cliquable bibliothèque -->
+
+    <button
+      id="bibliotheque-hotspot"
+      class="hotspot"
+      type="button"
+      aria-label="Ouvrir la bibliothèque"
+    ></button>
+
+
+    <!-- Bouton pour sortir -->
+
     <button
       class="retour"
       id="retour"
       type="button"
     >
-      ← Sortir
+      Sortir
     </button>
 
   </section>
 
+
   <!-- =========================
-       INTERACTIONS
+       JAVASCRIPT
        ========================= -->
 
   <script>
+
     const accueil =
       document.getElementById("accueil");
 
     const retour =
       document.getElementById("retour");
 
+    const bibliotheque =
+      document.getElementById("bibliotheque-hotspot");
+
+
+    /* =========================
+       ENTRER DANS NEIZH
+       ========================= */
+
     accueil.addEventListener(
       "click",
       function () {
+
         document.body
           .classList
           .add("inside");
+
       }
     );
+
+
+    /* =========================
+       SORTIR
+       ========================= */
 
     retour.addEventListener(
       "click",
       function (event) {
+
         event.stopPropagation();
 
         document.body
           .classList
           .remove("inside");
+
       }
     );
+
+
+    /* =========================
+       BIBLIOTHÈQUE
+       ========================= */
+
+    bibliotheque.addEventListener(
+      "click",
+      function (event) {
+
+        event.stopPropagation();
+
+        alert("Bienvenue dans la bibliothèque 📚");
+
+      }
+    );
+
   </script>
+
 
 </body>
 </html>
