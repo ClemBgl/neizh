@@ -160,137 +160,96 @@
 
 
     /* =========================
-       HOTSPOTS
-       ========================= */
+   HOTSPOTS
+   ========================= */
 
-    .hotspot {
-      position: absolute;
+.hotspot {
+  position: absolute;
+  z-index: 20;
 
-      z-index: 20;
+  border: 2px solid rgba(255, 255, 255, .35);
+  padding: 0;
 
-      border: 0;
-      padding: 0;
+  background: rgba(255, 235, 180, .12);
 
-      background: transparent;
+  cursor: pointer;
 
-      cursor: pointer;
+  border-radius: 18px;
 
-      border-radius: 16px;
+  transition:
+    background .25s ease,
+    box-shadow .25s ease,
+    border-color .25s ease;
+}
 
-      transition:
-        background .25s ease,
-        box-shadow .25s ease;
-    }
+.hotspot:hover {
+  background: rgba(255, 225, 150, .28);
 
-    .hotspot:hover {
-      background: rgba(255, 240, 190, .12);
+  border-color: rgba(255, 255, 255, .75);
 
-      box-shadow:
-        0 0 0 2px rgba(255,255,255,.20),
-        0 0 30px rgba(255,210,120,.40);
-    }
-
-
-    /* =========================
-       HOTSPOT BIBLIOTHÈQUE
-       ========================= */
-
-    #bibliotheque-hotspot {
-      left: 39%;
-      top: 25%;
-
-      width: 19%;
-      height: 31%;
-    }
+  box-shadow:
+    0 0 0 3px rgba(255,255,255,.16),
+    0 0 34px rgba(255,195,90,.55);
+}
 
 
-    /* =========================
-       MOBILE
-       ========================= */
+/* =========================
+   NOM DE LA PIÈCE
+   ========================= */
 
-    @media (max-width: 768px) {
+.hotspot::after {
+  content: attr(data-room);
 
-      #accueil .house,
-      #interieur .house {
-        object-fit: cover;
-        object-position: center center;
-      }
+  position: absolute;
 
-      .retour {
-        font-size: 14px;
+  left: 50%;
+  bottom: 12px;
 
-        padding: 11px 20px;
-      }
+  transform: translateX(-50%) translateY(6px);
 
-      .hotspot:hover {
-        background: transparent;
+  padding: 8px 14px;
 
-        box-shadow: none;
-      }
-    }
+  border-radius: 999px;
 
-  </style>
-</head>
+  background: rgba(70, 57, 43, .88);
 
+  color: white;
 
-<body>
+  font-family: Georgia, serif;
+  font-size: 15px;
 
+  white-space: nowrap;
 
-  <!-- =========================
-       MAISON EXTÉRIEURE
-       ========================= -->
+  opacity: 0;
 
-  <section
-    id="accueil"
-    class="screen"
-  >
+  pointer-events: none;
 
-    <img
-      class="house"
-      src="maison-accueil-desktop.3.png"
-      alt="NEIZH"
-    >
+  transition:
+    opacity .2s ease,
+    transform .2s ease;
 
-  </section>
+  box-shadow:
+    0 4px 12px rgba(0,0,0,.18);
+}
+
+.hotspot:hover::after {
+  opacity: 1;
+
+  transform: translateX(-50%) translateY(0);
+}
 
 
-  <!-- =========================
-       MAISON INTÉRIEURE
-       ========================= -->
+/* =========================
+   BIBLIOTHÈQUE
+   ========================= */
 
-  <section
-    id="interieur"
-    class="screen"
-  >
+#bibliotheque-hotspot {
+  left: 36%;
+  top: 24%;
 
-    <img
-      class="house"
-      src="maison-interieur.3.png.png"
-      alt="Intérieur de NEIZH"
-    >
-
-
-    <!-- Zone cliquable bibliothèque -->
-
-    <button
-      id="bibliotheque-hotspot"
-      class="hotspot"
-      type="button"
-      aria-label="Ouvrir la bibliothèque"
-    ></button>
-
-
-    <!-- Bouton pour sortir -->
-
-    <button
-      class="retour"
-      id="retour"
-      type="button"
-    >
-      Sortir
-    </button>
-
-  </section>
+  width: 24%;
+  height: 34%;
+}
 
 
   <!-- =========================
