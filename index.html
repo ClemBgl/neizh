@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
+
   <meta charset="UTF-8">
 
   <meta
@@ -12,11 +14,12 @@
 
   <title>NEIZH</title>
 
+
   <style>
 
-    /* =========================
+    /* ==================================================
        BASE
-       ========================= */
+       ================================================== */
 
     * {
       box-sizing: border-box;
@@ -43,9 +46,10 @@
     }
 
 
-    /* =========================
+
+    /* ==================================================
        ÉCRANS
-       ========================= */
+       ================================================== */
 
     .screen {
       position: fixed;
@@ -57,16 +61,20 @@
 
       overflow: hidden;
 
-      transition: opacity .8s ease;
+      opacity: 0;
+
+      pointer-events: none;
+
+      transition: opacity .7s ease;
     }
 
 
-    /* =========================
-       IMAGES
-       ========================= */
 
-    #accueil .house,
-    #interieur .house {
+    /* ==================================================
+       IMAGES PRINCIPALES
+       ================================================== */
+
+    .house {
       position: absolute;
 
       inset: 0;
@@ -82,37 +90,36 @@
     }
 
 
-    /* =========================
-       ACCUEIL
-       ========================= */
+
+    /* ==================================================
+       MAISON EXTÉRIEURE
+       ================================================== */
 
     #accueil {
-      z-index: 2;
+      z-index: 3;
 
       opacity: 1;
 
-      cursor: pointer;
-
       pointer-events: auto;
+
+      cursor: pointer;
     }
 
 
-    /* =========================
-       INTÉRIEUR
-       ========================= */
+
+    /* ==================================================
+       MAISON INTÉRIEURE
+       ================================================== */
 
     #interieur {
-      z-index: 1;
-
-      opacity: 0;
-
-      pointer-events: none;
+      z-index: 2;
     }
 
 
-    /* =========================
-       EXTÉRIEUR → INTÉRIEUR
-       ========================= */
+
+    /* ==================================================
+       PASSAGE EXTÉRIEUR → INTÉRIEUR
+       ================================================== */
 
     body.inside #accueil {
       opacity: 0;
@@ -127,11 +134,12 @@
     }
 
 
-    /* =========================
-       BOUTON SORTIR
-       ========================= */
 
-    .retour {
+    /* ==================================================
+       BOUTON SORTIR
+       ================================================== */
+
+    .sortir {
       position: absolute;
 
       z-index: 50;
@@ -144,9 +152,11 @@
       padding: 14px 34px;
 
       border: 0;
+
       border-radius: 999px;
 
-      background: rgba(250, 247, 240, .96);
+      background:
+        rgba(250, 247, 240, .96);
 
       color: #514737;
 
@@ -164,7 +174,7 @@
     }
 
 
-    .retour:hover {
+    .sortir:hover {
       background: white;
 
       transform:
@@ -173,9 +183,10 @@
     }
 
 
-    /* =========================
-       ZONES CLIQUABLES
-       ========================= */
+
+    /* ==================================================
+       HOTSPOTS DES PIÈCES
+       ================================================== */
 
     .hotspot {
       position: absolute;
@@ -183,6 +194,7 @@
       z-index: 30;
 
       border: 0;
+
       padding: 0;
 
       background: transparent;
@@ -199,15 +211,17 @@
     }
 
 
-    /* =========================
+
+    /* ==================================================
        SURVOL D'UNE PIÈCE
-       ========================= */
+       ================================================== */
 
     .hotspot:hover {
       background:
         rgba(255, 220, 130, .25);
 
       box-shadow:
+
         inset 0 0 0 2px
         rgba(255, 255, 255, .72),
 
@@ -216,9 +230,10 @@
     }
 
 
-    /* =========================
+
+    /* ==================================================
        NOM DE LA PIÈCE
-       ========================= */
+       ================================================== */
 
     .room-name {
       position: absolute;
@@ -230,23 +245,32 @@
         translateX(-50%)
         translateY(8px);
 
-      padding: 9px 16px;
+      padding:
+        9px 16px;
 
-      border-radius: 999px;
+      border-radius:
+        999px;
 
       background:
         rgba(67, 55, 43, .92);
 
-      color: white;
+      color:
+        white;
 
-      font-family: Georgia, serif;
-      font-size: 16px;
+      font-family:
+        Georgia, serif;
 
-      white-space: nowrap;
+      font-size:
+        16px;
 
-      opacity: 0;
+      white-space:
+        nowrap;
 
-      pointer-events: none;
+      opacity:
+        0;
+
+      pointer-events:
+        none;
 
       box-shadow:
         0 4px 14px
@@ -259,76 +283,199 @@
 
 
     .hotspot:hover .room-name {
+
       opacity: 1;
 
       transform:
         translateX(-50%)
         translateY(0);
+
     }
 
 
-    /* =========================
+
+    /* ==================================================
        BIBLIOTHÈQUE
-       ========================= */
+       HOTSPOT VALIDÉ
+       ================================================== */
 
     #bibliotheque-hotspot {
 
-      /*
-        Zone volontairement plus petite
-        que dans la version précédente.
-      */
+      left: 45%;
 
-  left: 45.5%;
-  top: 28%;
-  width: 13%;
-  height: 25%;
+      top: 28%;
+
+      width: 13%;
+
+      height: 25%;
+
     }
 
 
-    /* =========================
+
+    /* ==================================================
+       ÉCRAN BIBLIOTHÈQUE
+       ================================================== */
+
+    #bibliotheque {
+
+      z-index: 5;
+
+      background: #eee2cf;
+
+    }
+
+
+    body.library-open #bibliotheque {
+
+      opacity: 1;
+
+      pointer-events: auto;
+
+    }
+
+
+    body.library-open #interieur {
+
+      opacity: 0;
+
+      pointer-events: none;
+
+    }
+
+
+
+    /* ==================================================
+       IMAGE BIBLIOTHÈQUE
+       ================================================== */
+
+    .library-image {
+
+      position: absolute;
+
+      inset: 0;
+
+      width: 100%;
+      height: 100%;
+
+      object-fit: cover;
+
+      object-position:
+        center center;
+
+      user-select: none;
+
+      -webkit-user-drag: none;
+
+    }
+
+
+
+    /* ==================================================
+       RETOUR À LA MAISON
+       ================================================== */
+
+    .retour-maison {
+
+      position: absolute;
+
+      z-index: 50;
+
+      left: 50%;
+
+      bottom: 4.5%;
+
+      transform:
+        translateX(-50%);
+
+      padding:
+        14px 28px;
+
+      border: 0;
+
+      border-radius:
+        999px;
+
+      background:
+        rgba(250, 247, 240, .96);
+
+      color:
+        #514737;
+
+      font-family:
+        Georgia, serif;
+
+      font-size:
+        17px;
+
+      cursor:
+        pointer;
+
+      box-shadow:
+        0 4px 14px
+        rgba(0, 0, 0, .12);
+
+      transition:
+        transform .2s ease,
+        background .2s ease;
+
+    }
+
+
+    .retour-maison:hover {
+
+      background:
+        white;
+
+      transform:
+        translateX(-50%)
+        translateY(-2px);
+
+    }
+
+
+
+    /* ==================================================
        MOBILE
-       ========================= */
+       ================================================== */
 
     @media (max-width: 768px) {
 
-      #accueil .house,
-      #interieur .house {
-        object-fit: cover;
-        object-position: center center;
-      }
+      .sortir,
+      .retour-maison {
 
-
-      .retour {
         font-size: 14px;
 
-        padding: 11px 20px;
+        padding:
+          11px 20px;
+
       }
 
-
-      /*
-        Sur mobile il n'y a pas vraiment
-        de "survol". On travaillera plus
-        tard une interaction tactile dédiée.
-      */
 
       .room-name {
-        font-size: 14px;
 
-        padding: 8px 13px;
+        font-size:
+          14px;
+
+        padding:
+          8px 13px;
+
       }
 
     }
 
   </style>
+
 </head>
+
 
 
 <body>
 
 
-  <!-- =========================
+  <!-- ==================================================
        MAISON EXTÉRIEURE
-       ========================= -->
+       ================================================== -->
 
   <section
     id="accueil"
@@ -344,9 +491,10 @@
   </section>
 
 
-  <!-- =========================
+
+  <!-- ==================================================
        MAISON INTÉRIEURE
-       ========================= -->
+       ================================================== -->
 
   <section
     id="interieur"
@@ -360,9 +508,10 @@
     >
 
 
-    <!-- =========================
+
+    <!-- ================================================
          BIBLIOTHÈQUE
-         ========================= -->
+         ================================================ -->
 
     <button
       id="bibliotheque-hotspot"
@@ -378,32 +527,79 @@
     </button>
 
 
-    <!-- =========================
-         SORTIR
-         ========================= -->
+
+    <!-- ================================================
+         SORTIR DE NEIZH
+         ================================================ -->
 
     <button
-      class="retour"
-      id="retour"
+      id="sortir"
+      class="sortir"
       type="button"
     >
+
       Sortir
+
     </button>
+
 
   </section>
 
 
-  <!-- =========================
+
+  <!-- ==================================================
+       VUE DÉTAILLÉE BIBLIOTHÈQUE
+       ================================================== -->
+
+  <section
+    id="bibliotheque"
+    class="screen"
+  >
+
+    <img
+      class="library-image"
+      src="bibliotheque.png"
+      alt="Bibliothèque de NEIZH"
+    >
+
+
+    <button
+      id="retour-maison"
+      class="retour-maison"
+      type="button"
+    >
+
+      ← Retour à la maison
+
+    </button>
+
+
+  </section>
+
+
+
+  <!-- ==================================================
        JAVASCRIPT
-       ========================= -->
+       ================================================== -->
 
   <script>
 
-    const accueil =
-      document.getElementById("accueil");
 
-    const retour =
-      document.getElementById("retour");
+    /* ==================================================
+       ÉLÉMENTS
+       ================================================== */
+
+    const accueil =
+      document.getElementById(
+        "accueil"
+      );
+
+
+    const sortir =
+      document.getElementById(
+        "sortir"
+      );
+
 
     const bibliotheque =
       document.getElementById(
@@ -411,9 +607,16 @@
       );
 
 
-    /* =========================
+    const retourMaison =
+      document.getElementById(
+        "retour-maison"
+      );
+
+
+
+    /* ==================================================
        ENTRER DANS NEIZH
-       ========================= */
+       ================================================== */
 
     accueil.addEventListener(
       "click",
@@ -427,27 +630,35 @@
     );
 
 
-    /* =========================
-       SORTIR
-       ========================= */
 
-    retour.addEventListener(
+    /* ==================================================
+       SORTIR DE NEIZH
+       ================================================== */
+
+    sortir.addEventListener(
       "click",
       function (event) {
 
         event.stopPropagation();
 
+
         document.body
           .classList
           .remove("inside");
+
+
+        document.body
+          .classList
+          .remove("library-open");
 
       }
     );
 
 
-    /* =========================
-       BIBLIOTHÈQUE
-       ========================= */
+
+    /* ==================================================
+       OUVRIR LA BIBLIOTHÈQUE
+       ================================================== */
 
     bibliotheque.addEventListener(
       "click",
@@ -455,15 +666,35 @@
 
         event.stopPropagation();
 
-        alert(
-          "Bienvenue dans la bibliothèque 📚"
-        );
+
+        document.body
+          .classList
+          .add("library-open");
 
       }
     );
+
+
+
+    /* ==================================================
+       RETOURNER DANS LA MAISON
+       ================================================== */
+
+    retourMaison.addEventListener(
+      "click",
+      function () {
+
+        document.body
+          .classList
+          .remove("library-open");
+
+      }
+    );
+
 
   </script>
 
 
 </body>
+
 </html>
