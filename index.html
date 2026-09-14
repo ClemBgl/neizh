@@ -293,6 +293,36 @@
 
 
     /* ==================================================
+       HOTSPOT CABANE
+       Ancien carré "Chambre des enfants"
+       ================================================== */
+
+    #cabane-hotspot {
+      left: 20.5%;
+      top: 28.5%;
+
+      width: 12%;
+      height: 22%;
+    }
+
+
+
+    /* ==================================================
+       HOTSPOT CHAMBRE DES ENFANTS
+       Premier calage
+       ================================================== */
+
+    #enfants-hotspot {
+      left: 31.5%;
+      top: 28.5%;
+
+      width: 12%;
+      height: 22%;
+    }
+
+
+
+    /* ==================================================
        HOTSPOT BIBLIOTHÈQUE
        VALIDÉ
        ================================================== */
@@ -308,30 +338,21 @@
 
 
     /* ==================================================
-       HOTSPOT CABANE
-       PREMIER CALAGE
+       ÉCRANS DES PIÈCES
        ================================================== */
 
-    #cabane-hotspot {
-      left: 20.5%;
-      top: 28.5%;
-
-      width: 12%;
-      height: 22%;
-    }
-
-
-
-    /* ==================================================
-       ÉCRAN BIBLIOTHÈQUE
-       ================================================== */
-
-    #bibliotheque {
+    #bibliotheque,
+    #chambre-enfants {
       z-index: 5;
 
       background: #eee2cf;
     }
 
+
+
+    /* ==================================================
+       OUVERTURE BIBLIOTHÈQUE
+       ================================================== */
 
     body.library-open #bibliotheque {
       opacity: 1;
@@ -349,10 +370,29 @@
 
 
     /* ==================================================
-       IMAGE BIBLIOTHÈQUE
+       OUVERTURE CHAMBRE DES ENFANTS
        ================================================== */
 
-    .library-image {
+    body.children-open #chambre-enfants {
+      opacity: 1;
+
+      pointer-events: auto;
+    }
+
+
+    body.children-open #interieur {
+      opacity: 0;
+
+      pointer-events: none;
+    }
+
+
+
+    /* ==================================================
+       IMAGES DES PIÈCES
+       ================================================== */
+
+    .room-image {
       position: absolute;
 
       inset: 0;
@@ -421,7 +461,8 @@
 
 
     .retour-maison:hover {
-      background: white;
+      background:
+        white;
 
       transform:
         translateX(-50%)
@@ -500,25 +541,6 @@
 
 
     <!-- ================================================
-         BIBLIOTHÈQUE
-         ================================================ -->
-
-    <button
-      id="bibliotheque-hotspot"
-      class="hotspot"
-      type="button"
-      aria-label="Ouvrir la bibliothèque"
-    >
-
-      <span class="room-name">
-        Bibliothèque
-      </span>
-
-    </button>
-
-
-
-    <!-- ================================================
          CABANE
          ================================================ -->
 
@@ -531,6 +553,44 @@
 
       <span class="room-name">
         Cabane
+      </span>
+
+    </button>
+
+
+
+    <!-- ================================================
+         CHAMBRE DES ENFANTS
+         ================================================ -->
+
+    <button
+      id="enfants-hotspot"
+      class="hotspot"
+      type="button"
+      aria-label="Ouvrir la chambre des enfants"
+    >
+
+      <span class="room-name">
+        Chambre des enfants
+      </span>
+
+    </button>
+
+
+
+    <!-- ================================================
+         BIBLIOTHÈQUE
+         ================================================ -->
+
+    <button
+      id="bibliotheque-hotspot"
+      class="hotspot"
+      type="button"
+      aria-label="Ouvrir la bibliothèque"
+    >
+
+      <span class="room-name">
+        Bibliothèque
       </span>
 
     </button>
@@ -566,14 +626,45 @@
   >
 
     <img
-      class="library-image"
+      class="room-image"
       src="Bibliothèque_interieur1.png"
       alt="Bibliothèque de NEIZH"
     >
 
 
     <button
-      id="retour-maison"
+      id="retour-bibliotheque"
+      class="retour-maison"
+      type="button"
+    >
+
+      ← Retour à la maison
+
+    </button>
+
+
+  </section>
+
+
+
+  <!-- ==================================================
+       VUE DÉTAILLÉE CHAMBRE DES ENFANTS
+       ================================================== -->
+
+  <section
+    id="chambre-enfants"
+    class="screen"
+  >
+
+    <img
+      class="room-image"
+      src="CHAMBRE DES ENFANTS.png"
+      alt="Chambre des enfants de NEIZH"
+    >
+
+
+    <button
+      id="retour-enfants"
       class="retour-maison"
       type="button"
     >
@@ -616,9 +707,21 @@
       );
 
 
-    const retourMaison =
+    const chambreEnfants =
       document.getElementById(
-        "retour-maison"
+        "enfants-hotspot"
+      );
+
+
+    const retourBibliotheque =
+      document.getElementById(
+        "retour-bibliotheque"
+      );
+
+
+    const retourEnfants =
+      document.getElementById(
+        "retour-enfants"
       );
 
 
@@ -660,6 +763,11 @@
           .classList
           .remove("library-open");
 
+
+        document.body
+          .classList
+          .remove("children-open");
+
       }
     );
 
@@ -678,6 +786,11 @@
 
         document.body
           .classList
+          .remove("children-open");
+
+
+        document.body
+          .classList
           .add("library-open");
 
       }
@@ -686,16 +799,58 @@
 
 
     /* ==================================================
-       RETOURNER DANS LA MAISON
+       OUVRIR LA CHAMBRE DES ENFANTS
        ================================================== */
 
-    retourMaison.addEventListener(
+    chambreEnfants.addEventListener(
+      "click",
+      function (event) {
+
+        event.stopPropagation();
+
+
+        document.body
+          .classList
+          .remove("library-open");
+
+
+        document.body
+          .classList
+          .add("children-open");
+
+      }
+    );
+
+
+
+    /* ==================================================
+       RETOUR DEPUIS LA BIBLIOTHÈQUE
+       ================================================== */
+
+    retourBibliotheque.addEventListener(
       "click",
       function () {
 
         document.body
           .classList
           .remove("library-open");
+
+      }
+    );
+
+
+
+    /* ==================================================
+       RETOUR DEPUIS LA CHAMBRE DES ENFANTS
+       ================================================== */
+
+    retourEnfants.addEventListener(
+      "click",
+      function () {
+
+        document.body
+          .classList
+          .remove("children-open");
 
       }
     );
